@@ -1,0 +1,21 @@
+p, li {
+	color: #524C4C;
+	margin: 20px;
+}
+
+.texto {
+	font-family: Courier New;
+}
+
+h3 {
+	margin: 20px;
+}
+
+img{
+	margin: 25px;
+	width: 300px;
+	height: 350px;
+}
+.botao {
+	margin: 15px;
+}
