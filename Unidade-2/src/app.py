@@ -14,7 +14,7 @@ def get_tasks():
 @app.route('/')
 def index():
     tasks = get_tasks()
-    return render_template('index.html', tasks=tasks)
+    return render_template('./html/index.html', tasks=tasks)
 
 @app.route('/add', methods=['POST'])
 def add_task():
