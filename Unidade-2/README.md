@@ -85,4 +85,4 @@ Após executar os contêiners, a tela de login pode ser acessado através do nav
 
 ### Conclusão
 
-Esta aplicação demonstra uma abordagem moderna e eficiente para servir conteúdo web estático usando Flask e Docker. A utilização do Docker garante que a aplicação seja executada de maneira consistente em diferentes ambientes, enquanto o FastAPI oferece uma maneira simples e rápida de servir o conteúdo HTML. A estrutura do projeto e os arquivos fornecidos facilitam a compreensão e a execução da aplicação, tornando-a uma excelente base para projetos futuros.
+Esta aplicação demonstra uma abordagem moderna e eficiente para servir conteúdo web estático usando Flask e Docker. A utilização do Docker garante que a aplicação seja executada de maneira consistente em diferentes ambientes e contenerização de cada aspecto, enquanto o Flask oferece uma maneira simples e rápida de servir o conteúdo HTML. A estrutura do projeto e os arquivos fornecidos facilitam a compreensão e a execução da aplicação, tornando-a uma excelente base para projetos futuros.
