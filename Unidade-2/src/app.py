@@ -2,16 +2,13 @@ from flask import Flask, request, render_template_string, redirect, session, ren
 import psycopg2
 import hashlib
 import os
-
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24)
-
 
 def check_login(email, password):
     try:
@@ -41,6 +38,8 @@ def check_login(email, password):
 
 @app.route('/', methods=['GET'])
 def index():
+    if 'user_id' in session or 'token' in session:
+        return redirect('/todo')
     
     return render_template('./login.html')
 
@@ -95,6 +94,11 @@ def add_task():
 
     return redirect(url_for('todo_list'))  # Redireciona de volta para a lista de tarefas após adicionar uma nova tarefa
 
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('token', None)
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
