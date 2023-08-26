@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string, redirect, session, render_template
+from flask import Flask, request, render_template_string, redirect, session, render_template, url_for
 import psycopg2
 import hashlib
 import os
@@ -31,15 +31,17 @@ def check_login(email, password):
     if user:
         user_id, stored_password = user
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        hashed_password_2 = hashlib.sha256(stored_password.encode()).hexdigest()
         logging.debug(f"Senha fornecida (hash): {hashed_password}")
-        logging.debug(f"Senha armazenada (hash): {stored_password}")
-
-        return user_id
+        logging.debug(f"Senha armazenada (hash): {hashed_password_2}")
+        if hashed_password == hashed_password_2:
+            return user_id
         
     return None
 
 @app.route('/', methods=['GET'])
 def index():
+    
     return render_template('./login.html')
 
 @app.route('/login', methods=['POST'])
@@ -71,11 +73,27 @@ def todo_list():
 
     conn = psycopg2.connect(dbname="todolist", user="user", password="password", host="db", port="5432")
     cursor = conn.cursor()
-    cursor.execute("SELECT task FROM tasks WHERE id_pessoa = %s", (user_id,))
+    cursor.execute("SELECT task FROM tasks WHERE pessoa_id = %s", (user_id,))
     tasks = [row[0] for row in cursor.fetchall()]
     conn.close()
 
-    return render_template_string("<ul>{% for task in tasks %}<li>{{ task }}</li>{% endfor %}</ul>", tasks=tasks)
+    return render_template('index.html', tasks=tasks)
+
+@app.route('/add', methods=['POST'])
+def add_task():
+    if 'user_id' not in session or 'token' not in session:
+        return redirect('/login')
+
+    user_id = session['user_id']
+    new_task = request.form['task']
+
+    conn = psycopg2.connect(dbname="todolist", user="user", password="password", host="db", port="5432")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO tasks (task, pessoa_id) VALUES (%s, %s)", (new_task, user_id))
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('todo_list'))  # Redireciona de volta para a lista de tarefas após adicionar uma nova tarefa
 
 
 if __name__ == '__main__':
