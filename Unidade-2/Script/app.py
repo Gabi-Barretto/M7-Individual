@@ -64,7 +64,7 @@ def login():
 @app.route('/todo')
 def todo_list():
     if 'user_id' not in session or 'token' not in session:
-        return redirect('/login')
+        return redirect('/')
 
     user_id = session['user_id']
 
@@ -72,7 +72,7 @@ def todo_list():
 
     conn = psycopg2.connect(dbname="todolist", user="user", password="password", host="db", port="5432")
     cursor = conn.cursor()
-    cursor.execute("SELECT task FROM tasks WHERE pessoa_id = %s", (user_id,))
+    cursor.execute("SELECT task_description FROM tasks WHERE id_pessoa = %s", (user_id,))
     tasks = [row[0] for row in cursor.fetchall()]
     conn.close()
 
@@ -81,14 +81,14 @@ def todo_list():
 @app.route('/add', methods=['POST'])
 def add_task():
     if 'user_id' not in session or 'token' not in session:
-        return redirect('/login')
+        return redirect('/')
 
     user_id = session['user_id']
     new_task = request.form['task']
 
     conn = psycopg2.connect(dbname="todolist", user="user", password="password", host="db", port="5432")
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO tasks (task, pessoa_id) VALUES (%s, %s)", (new_task, user_id))
+    cursor.execute("INSERT INTO tasks (task_description, id_pessoa) VALUES (%s, %s)", (new_task, user_id))
     conn.commit()
     conn.close()
 
