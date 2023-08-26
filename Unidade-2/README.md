@@ -1,6 +1,6 @@
 ### Introdução
 
-Esta aplicação é composta por um arquivo HTML representando uma tela de login, seguido de uma "todo list". Além disso, inclui arquivos CSS para estilização, um arquivo Python que emprega o Flask para servir o conteúdo e um `Dockerfile` que empacota tudo em uma imagem Docker. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. Vale ressaltar que a aplicação conta com um autenticador para que nao seja possivel acessar a página sem login ou autenticação do mesmo, cotnando com hashlib sha256 para sua execução.
+Esta aplicação é composta por um arquivo HTML representando uma tela de login, após autenticado, o usuário tem acesso a uma "todo list" que será carregada com base nos dados salvos em um banco de dados postgreSQL que foi trabalhado via adminer. Além disso, inclui arquivos CSS para estilização, um arquivo Python que emprega o Flask para servir o conteúdo e um `Dockerfile` que empacota tudo em uma imagem Docker. Vale ressaltar que a aplicação conta com um autenticador para que nao seja possivel acessar a página sem login ou autenticação do mesmo, cotnando com hashlib sha256 para sua execução. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
 
 ### Etapas de Execução
 
@@ -74,6 +74,10 @@ services:
     container_name: adminer</pre>
 
 #### 5. Acessando o conteúdo
+
+Para buildar a imagem, criar e inicar os containers basta utilizar:
+
+<pre>docker compose up --build</pre>
 
 Depois de iniciar os containers, a tela de login pode ser acessada no navegador em `http://localhost:5000/`.
 
