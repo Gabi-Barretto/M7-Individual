@@ -1,8 +1,7 @@
 version: '3.8'
 services:
   web:
-    image: my-flask-app
-    build: .
+    image: gabrielabarretto/ponderadasmodulo7:ponderada2
     ports:
       - "5000:5000"
     depends_on:

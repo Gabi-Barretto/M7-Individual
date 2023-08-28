@@ -1,6 +1,6 @@
 ### Introdução
 
-Esta aplicação é composta por um arquivo HTML representando uma tela de login, após autenticado, o usuário tem acesso a uma "todo list" que será carregada com base nos dados salvos em um banco de dados postgreSQL que foi trabalhado via adminer. Além disso, inclui arquivos CSS para estilização, um arquivo Python que emprega o Flask para servir o conteúdo e um `Dockerfile` que empacota tudo em uma imagem Docker. Vale ressaltar que a aplicação conta com um autenticador para que nao seja possivel acessar a página sem login ou autenticação do mesmo, cotnando com hashlib sha256 para sua execução. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
+Esta aplicação é composta por um arquivo HTML representando uma tela de login, após autenticado, o usuário tem acesso a uma "todo list" que será carregada com base nos dados salvos em um banco de dados postgreSQL que foi trabalhado via adminer. Além disso, inclui arquivos CSS para estilização, um arquivo Python que emprega o Flask para servir o conteúdo e um `Dockerfile` que empacota tudo em uma imagem Docker. Vale ressaltar que a aplicação conta com um autenticador para que nao seja possivel acessar a página sem login ou autenticação do mesmo, cotnando com hashlib sha256 para sua execução. A publicação no docker-hub foi realizada na url: https://hub.docker.com/layers/gabrielabarretto/ponderadasmodulo7/ponderada2/images/sha256-c085a2b9f09f7fe64715929df67e9c3836a5f5fab5cdc7780ddf93b1710e2868?context=repo. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
 
 ### Etapas de Execução
 
@@ -77,7 +77,7 @@ services:
 
 Para buildar a imagem, criar e inicar os containers basta utilizar:
 
-<pre>docker compose up --build</pre>
+<pre>docker compose up</pre>
 
 Depois de iniciar os containers, a tela de login pode ser acessada no navegador em `http://localhost:5000/`.
 
