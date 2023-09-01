@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  web:
+    image: gabrielabarretto/ponderadasmodulo7:prova-node
+    ports:
+      - "3000:3000"
+    depends_on:
+      - 'db'
+
+  py:
+    image: gabrielabarretto/ponderadasmodulo7:prova-python
+    ports:
+      - "8000:8000"
+    depends_on:
+      - 'db'
+
+  db:
+    image: gabrielabarretto/ponderadasmodulo7:prova-banco
