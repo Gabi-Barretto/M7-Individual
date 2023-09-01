@@ -1,6 +1,6 @@
 ### Introdução
 
-Esta aplicação é composta por um arquivo HTML representando uma tela de cadastro, um arquivo Python que emprega o Fastapi para servir o conteúdo e dois `Dockerfile`. A publicação no docker-hub foi realizada na url: https://hub.docker.com/layers/gabrielabarretto/ponderadasmodulo7/ponderada2/images/sha256-c085a2b9f09f7fe64715929df67e9c3836a5f5fab5cdc7780ddf93b1710e2868?context=repo. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
+Esta aplicação é composta por um arquivo HTML representando uma tela de cadastro, um arquivo Python que emprega o Fastapi para servir o conteúdo e dois `Dockerfile`. A publicação no docker-hub foi realizada em partes na url: https://hub.docker.com/repository/docker/gabrielabarretto/ponderadasmodulo7/tags?page=1&ordering=last_updated. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
 
 ### Etapas de Execução
 
