@@ -61,9 +61,9 @@ CMD ["node", "server.js"]
 </pre>
 
 
-#### 4. Construção da Imagem Docker
+#### 4. Construção do Docker Compose
 
-Os containers e as imagens são construídos usando o seguinte comando:
+Os containers e as imagens são definidos da deguinte maneira no compose, segregados pelo seu tipo cada parte da aplicacao tem sua propria imagem e conteiner a partir da definição abaixo:
 
 <pre>version: '3.8'
 services:
