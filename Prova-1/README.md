@@ -1,6 +1,8 @@
 ### Introdução
 
-Esta aplicação é composta por um arquivo HTML representando uma tela de cadastro, um arquivo Python que emprega o Fastapi para servir o conteúdo e dois `Dockerfile`. A publicação no docker-hub foi realizada em partes na url: https://hub.docker.com/repository/docker/gabrielabarretto/ponderadasmodulo7/tags?page=1&ordering=last_updated. A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
+Esta aplicação é composta por um arquivo HTML representando uma tela de cadastro, um arquivo Python que emprega o Fastapi para servir o conteúdo e dois `Dockerfile`. A publicação no docker-hub foi realizada em partes na url: https://hub.docker.com/repository/docker/gabrielabarretto/ponderadasmodulo7/tags?page=1&ordering=last_updated. 
+
+A seguir, é apresentado um guia passo a passo para compreender e executar a aplicação. 
 
 ### Etapas de Execução
 
@@ -8,15 +10,11 @@ Esta aplicação é composta por um arquivo HTML representando uma tela de cadas
 
 O projeto tem a seguinte estrutura:
 
-- Uma pasta "templates" contendo os arquivos HTML e CSS.
+- Uma pasta "frontend" contendo os arquivos HTML e CSS.
 - Um arquivo `main.py` que contém o código FastAPI.
 - Dois `Dockerfile` para criar a imagem Docker.
 - Um `docker-compose.yml` para containerizar cada componente da aplicação. (python node e db)
 - Um `requirements.txt` que lista as dependências necessárias do python.
-
-#### 2. Código Flask (app.py)
-
-O código em Flask é encarregado de servir o arquivo HTML, gerenciar a comunicação com o banco de dados e autenticar o usuário.
 
 #### 3. Dockerfile e Docker-Compose
 
