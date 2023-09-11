@@ -10,11 +10,10 @@ Segue o **repositório no dockerhub** onde esta a imagem para execução: https:
 Bibliotecas utilizadas na imagem:
 
 ```python
-import pandas as pd
-from pycaret.regression import load_model, predict_model
-from fastapi import FastAPI
-import uvicorn
-from pydantic import create_model
+pycaret
+fastapi
+uvicorn
+pydantic
 ```
 
 # Aplicação de Previsão com FastAPI, Pydantic e Uvicorn
@@ -26,12 +25,6 @@ Esta aplicação é construída com FastAPI e utiliza Pydantic para a criação 
 1. **FastAPI**: Um moderno framework web de alta performance para construir APIs com Python.
 2. **Pydantic**: Usado para a definição de modelos de dados e validação de dados.
 3. **Uvicorn**: Um servidor ASGI leve e de alta performance, que serve como a base para executar a aplicação.
-
-## Passos para Execução
-
-### Pré-requisitos
-
-- Docker instalado em seu sistema.
 
 ## Códigos Importantes
 
@@ -75,6 +68,12 @@ CMD ["uvicorn", "minha_api:app", "--host", "0.0.0.0", "--port", "8000"]
 
 ```
 
+## Passos para Execução
+
+### Pré-requisitos
+
+- Docker instalado em seu sistema.
+
 ### Passo a Passo
 
 1. **Puxe a Imagem Docker**: Primeiro, você precisa puxar a imagem Docker do Docker Hub usando o seguinte comando:
@@ -97,6 +96,6 @@ CMD ["uvicorn", "minha_api:app", "--host", "0.0.0.0", "--port", "8000"]
 
 4. **Utilizar a API**: Agora, você pode usar a API para fazer previsões. Use a interface Swagger para enviar requisições POST com as informações necessárias e viáveis para obter previsões.
 
-## Conclusão
+## Conclusão e próximos passos
 
-Esperamos que você encontre esta aplicação útil e fácil de usar. 
+A aplicação até aqui está praticamente completa de facil usabilidade e logo será deployada na AWS contando com o serviço ECR ou EC2. O repositorio ECR já está pronto para deploy em: https://us-east-2.console.aws.amazon.com/ecr/repositories/public/316550699607/ponderada3?region=us-east-2, esperando apenas alguns ajustes que serão estudados na próxima aula.
