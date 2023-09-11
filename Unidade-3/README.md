@@ -1,62 +1,102 @@
 
 ### Introdução
 
-A aplicação é composta por um arquivo HTML que representa um currículo, arquivos CSS para estilização, um arquivo Python que usa FastAPI para servir o conteúdo, e um `Dockerfile` para empacotar tudo em uma imagem Docker. A seguir, descrevemos o passo a passo para entender e executar esta aplicação. Segue o colab da aplicacao, com o tratamento dos dados e o modelo escolhido com justificativa: https://colab.research.google.com/drive/1IOmiQLkVzXF1L2f1TmKfwJZx1VBsz7v_#scrollTo=__YaUgtviWdc.
+A aplicação é composta por um arquivo Python que usa FastAPI para servir o conteúdo, e um `Dockerfile` para empacotar tudo em uma imagem Docker com as bibliotecas devidamente instalandas. A seguir, descrevemos o passo a passo para entender e executar esta aplicação. 
 
-### Etapas de Execução
+Segue o **colab** da aplicação, com o tratamento dos dados e o modelo escolhido com justificativa: https://colab.research.google.com/drive/1IOmiQLkVzXF1L2f1TmKfwJZx1VBsz7v_?usp=sharing
 
-#### 1. Estrutura do Projeto
+Segue o **repositório no dockerhub** onde esta a imagem para execução: https://hub.docker.com/repository/docker/gabrielabarretto/ponderadasmodulo7/tags?page=1&ordering=last_updated
 
-A estrutura do projeto inclui uma pasta "curriculo" contendo o arquivo HTML e os arquivos CSS, um arquivo `main.py` com o código FastAPI, um `Dockerfile` para construir a imagem Docker, e um `requirements.txt` com as dependências necessárias.
+Bibliotecas utilizadas na imagem:
 
-#### 2. Código FastAPI (main.py)
+```python
+import pandas as pd
+from pycaret.regression import load_model, predict_model
+from fastapi import FastAPI
+import uvicorn
+from pydantic import create_model
+```
 
-O código FastAPI é responsável por servir o arquivo HTML. Ele pode ser configurado para servir também os arquivos estáticos, como CSS.
+# Aplicação de Previsão com FastAPI, Pydantic e Uvicorn
 
-#### 3. Dockerfile
+Esta aplicação é construída com FastAPI e utiliza Pydantic para a criação de modelos e Uvicorn como servidor ASGI. A aplicação apresenta uma interface Swagger para facilitar a interação com a API, permitindo que os usuários façam previsões com base nas informações fornecidas através de requisições POST.
 
-O `Dockerfile` contém as instruções para construir a imagem Docker. Ele define a imagem base do Python, configura o ambiente, copia os arquivos necessários e instala as dependências.
+## Destaques do Código
 
-**Código destacável:**
+1. **FastAPI**: Um moderno framework web de alta performance para construir APIs com Python.
+2. **Pydantic**: Usado para a definição de modelos de dados e validação de dados.
+3. **Uvicorn**: Um servidor ASGI leve e de alta performance, que serve como a base para executar a aplicação.
 
-<pre><div class="bg-black rounded-md mb-4"><div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>Dockerfile</span><button class="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button></div><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-Dockerfile">
-# Imagem base
-FROM python:3.9
+## Passos para Execução
 
-# Diretório dentro da imagem que vamos trabalhar
-WORKDIR /code
+### Pré-requisitos
 
-# 
-COPY ./requirements.txt /code/requirements.txt
+- Docker instalado em seu sistema.
 
-# 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+## Códigos Importantes
 
-# 
-COPY . /code
+**API:**
+```python
+# Load trained Pipeline
+model = load_model("minha_api")
 
-# 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
-</code></div></div></pre>
+# Create input/output pydantic models
+input_model = create_model("minha_api_input", Gender=(int, ...), Age=(int, ...), Annual_Income=(int, ...))
+output_model = create_model("minha_api_output", prediction=(int, ...))
 
-#### 4. Construindo a Imagem Docker
 
-A imagem Docker é construída usando o comando:
+# Define predict function
+@app.post("/predict", response_model=output_model)
+def predict(data: input_model):
+    data = pd.DataFrame([data.dict()])
+    predictions = round(predict_model(model, data=data))
+    return {"prediction": predictions["prediction_label"].iloc[0]}
+```
 
-<pre><div class="bg-black rounded-md mb-4"><div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span><button class="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button></div><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">docker build -t nome-da-imagem .
-</code></div></div></pre>
+**Dockerfile:**
+```python
+# Use uma imagem base Python
+FROM python:3.8
 
-#### 5. Executando o Contêiner Docker
+# Defina o diretório de trabalho
+WORKDIR /app
 
-O contêiner é executado a partir da imagem construída com o comando:
+# Copie o arquivo requirements.txt para o diretório de trabalho
+COPY requirements.txt .
 
-<pre><div class="bg-black rounded-md mb-4"><div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span><button class="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button></div><div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-bash">docker run -p 8000:80 nome-da-imagem
-</code></div></div></pre>
+# Instale as dependências
+RUN pip install --no-cache-dir -r requirements.txt
 
-#### 6. Acessando o Currículo
+# Copie o restante do código para o diretório de trabalho
+COPY . .
 
-Após executar o contêiner, o currículo pode ser acessado através do navegador em `http://localhost:8000/`.
+# Comando para executar o aplicativo
+CMD ["uvicorn", "minha_api:app", "--host", "0.0.0.0", "--port", "8000"]
 
-### Conclusão
+```
 
-Esta aplicação demonstra uma abordagem moderna e eficiente para servir conteúdo web estático usando FastAPI e Docker. A utilização do Docker garante que a aplicação seja executada de maneira consistente em diferentes ambientes, enquanto o FastAPI oferece uma maneira simples e rápida de servir o conteúdo HTML. A estrutura do projeto e os arquivos fornecidos facilitam a compreensão e a execução da aplicação, tornando-a uma excelente base para projetos futuros.
+### Passo a Passo
+
+1. **Puxe a Imagem Docker**: Primeiro, você precisa puxar a imagem Docker do Docker Hub usando o seguinte comando:
+
+   ```sh
+   docker pull gabrielabarretto/ponderadasmodulo7:ponderada3
+   ```
+
+2. **Executar a Imagem Docker**: Após puxar a imagem, você pode executá-la usando o comando `docker run`. Certifique-se de substituir `<PORTA>` pelo número da porta em que deseja que a aplicação seja hospedada (por exemplo, 8000):
+
+   ```sh
+   docker run -p <PORTA>:80 gabrielabarretto/ponderadasmodulo7:ponderada3
+   ```
+
+3. **Acessar a Interface Swagger**: Uma vez que a aplicação está rodando, você pode acessar a interface Swagger através do navegador, visitando:
+
+   ```
+   http://localhost:<PORTA>/docs
+   ```
+
+4. **Utilizar a API**: Agora, você pode usar a API para fazer previsões. Use a interface Swagger para enviar requisições POST com as informações necessárias e viáveis para obter previsões.
+
+## Conclusão
+
+Esperamos que você encontre esta aplicação útil e fácil de usar. 
