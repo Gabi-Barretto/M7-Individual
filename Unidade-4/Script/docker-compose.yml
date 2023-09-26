@@ -1,0 +1,8 @@
+
+version: '3'
+services:
+  web:
+    image: gabrielabarretto/ponderadasmodulo7:ponderada4
+    # build: .
+    ports:
+      - "8501:8501"
