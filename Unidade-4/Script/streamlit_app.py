@@ -4,7 +4,7 @@ import pandas as pd
 import hashlib
 
 # Load CSV data
-data = pd.read_csv('/mnt/dataset/Mall_Customers.csv')
+data = pd.read_csv('./dataset/Mall_Customers.csv')
 
 def main():
     st.title('Aplicação com Streamlit e Autenticação')
