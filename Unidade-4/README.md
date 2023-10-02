@@ -2,9 +2,13 @@
 
 ## Descrição
 
-O arquivo `streamlit_app.py` é o aplicativo Streamlit que contém o código para carregar dados de um bucket S3, criar gráficos com esses dados, e implementar uma seção de login. Abaixo está um resumo das funcionalidades principais do arquivo:
+O arquivo `streamlit_app.py` é o aplicativo Streamlit que contém o código para carregar dados de um bucket S3, criar gráficos com esses dados, e implementar uma seção de logins. Abaixo está um resumo das funcionalidades principais do arquivo:
 
-1. **Carregar Dados do S3**: A função `load_data_from_s3` carrega dados de um bucket S3 usando credenciais AWS fornecidas (nota: você deve considerar remover ou ocultar as credenciais do código). O conjunto de dados `Mall_Customers.csv` é carregado do bucket chamado `ponderada4`.
+email: admin@admin.com
+
+senha: admin123
+
+1. **Carregar Dados do S3**: A função `load_data_from_s3` carrega dados de um bucket S3 usando credenciais AWS fornecidas. O conjunto de dados `Mall_Customers.csv` é carregado do bucket chamado `ponderada4`.
 
 2. **Visualizações de Dados**: Funções para criar e exibir gráficos de dispersão que mostram as relações entre idade e renda anual (`plot_age_vs_income`) e entre renda anual e pontuação de gastos (`plot_income_vs_score`).
 
@@ -57,7 +61,7 @@ Certifique-se de não expor credenciais AWS ou qualquer outra informação sens�
 - Um bucket S3 configurado
 - Uma instância EC2 configurada
 
-### Passos realizados para o Deploy
+### Passos realizados para o Deploy e utilizar da aplicação.
 
 1. **Enviar os Dados para o S3**: Faça upload dos dados necessários para o bucket S3.
 
@@ -65,4 +69,4 @@ Certifique-se de não expor credenciais AWS ou qualquer outra informação sens�
 
 3. **Deploy do Docker na EC2**: Faça deploy das imagens Docker em sua devida instância EC2. (Apenas dar um pull do DockerHub)
 
-4. **Acessar o Aplicativo**: Acesse o aplicativo Streamlit através do endereço IP público da instância EC2.
+4. **Acessar o Aplicativo**: Acesse o aplicativo Streamlit através do endereço IP público da instância EC2 e aproveite da aplicação.
