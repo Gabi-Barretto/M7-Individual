@@ -8,9 +8,11 @@ O arquivo `streamlit_app.py` é o aplicativo Streamlit que contém o código par
 
 2. **Visualizações de Dados**: Funções para criar e exibir gráficos de dispersão que mostram as relações entre idade e renda anual (`plot_age_vs_income`) e entre renda anual e pontuação de gastos (`plot_income_vs_score`).
 
-3. **Seção de Login**: Uma simples implementação de login, onde um email e uma senha são inseridos e verificados para autenticação. A senha é criptografada usando SHA256.
+3. **Predição utilizando modelo e variáveis**: Função (`predict`) que realiza predição através da conexão comoutra instacia com a api configurada.
 
-4. **Estado de Sessão**: O código **tenta** implementar um tipo de gerenciamento de estado de sessão para o aplicativo Streamlit. 
+4. **Seção de Login**: Uma simples implementação de login, onde um email e uma s4enha são inseridos e verificados para autenticação. A senha é criptografada usando SHA256.
+
+5. **Estado de Sessão**: O código **tenta** implementar um tipo de gerenciamento de estado de sessão para o aplicativo Streamlit. 
 
 Logo, visamos:
 
@@ -23,40 +25,28 @@ O aplicativo é encapsulado em um contêiner Docker para facilitar o deployment 
 ### Precauções de Segurança
 Certifique-se de não expor credenciais AWS ou qualquer outra informação sensível no código. Considere usar variáveis de ambiente ou serviços de gerenciamento de segredos para lidar com credenciais de forma segura.
 
-## Configuração do Ambiente
+## Passos Realizados
 
 ### Pré-Requisitos
 
 - Python
 - Docker
-- AWS CLI (para deploy no EC2 e interação com o S3)
-
-### Configuração Local
-
-1. **Instale as Dependências**: Instale as dependências listadas em `requirements.txt`.
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2. **Execute o Aplicativo Streamlit Localmente**: Execute o aplicativo Streamlit em seu ambiente local.
-
-    ```bash
-    streamlit run streamlit_app.py
-    ```
+- AWS CLI 
 
 ### Docker
 
 1. **Construa a Imagem Docker**: Navegue até o diretório contendo o `Dockerfile` e construa a imagem Docker.
 
     ```bash
-    docker build -t nome-da-imagem .
+    docker build -t ponderada4 .
     ```
 
-2. **Execute o Contêiner Docker**: Inicie um contêiner usando a imagem criada.
+2. **Colando imagem no DockerHub**:
 
     ```bash
-    docker run -p 8501:8501 nome-da-imagem
+    docker tag ponderada4:latest gabrielabarretto/ponderadasmodulo7:ponderada4
+
+    docker push gabrielabarretto/ponderadasmodulo7:ponderada4
     ```
 
 ## Deploy na AWS
@@ -67,12 +57,12 @@ Certifique-se de não expor credenciais AWS ou qualquer outra informação sens�
 - Um bucket S3 configurado
 - Uma instância EC2 configurada
 
-### Passos para o Deploy
+### Passos realizados para o Deploy
 
-1. **Envie os Dados para o S3**: Faça upload dos dados necessários para o bucket S3.
+1. **Enviar os Dados para o S3**: Faça upload dos dados necessários para o bucket S3.
 
-2. **Configure a Instância EC2**: Inicie e configure uma instância EC2 na AWS.
+2. **Configurar as Instâncias EC2**: Inicie e configure duas instância EC2 na AWS, uma para o back e predição e ourta com o front e S3.
 
-3. **Deploy do Docker na EC2**: Faça deploy da imagem Docker na instância EC2.
+3. **Deploy do Docker na EC2**: Faça deploy das imagens Docker em sua devida instância EC2. (Apenas dar um pull do DockerHub)
 
-4. **Acesse o Aplicativo**: Acesse o aplicativo Streamlit através do endereço IP público da instância EC2.
+4. **Acessar o Aplicativo**: Acesse o aplicativo Streamlit através do endereço IP público da instância EC2.
