@@ -5,4 +5,5 @@ services:
     image: gabrielabarretto/ponderadasmodulo7:ponderada4
     build: .
     ports:
-      - "8501:8501"
+      - "80:8501" # mudar pra 80
+  
