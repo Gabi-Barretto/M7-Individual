@@ -1,18 +1,12 @@
 import streamlit as st
 import pandas as pd
 import hashlib
+import requests
 import matplotlib.pyplot as plt
 import boto3
 from io import StringIO
 
-def load_data_from_s3(bucket_name, file_key):
-    s3 = boto3.client('s3', aws_access_key_id='AKIAUTM7ELJLZUKUDQYQ', aws_secret_access_key='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', region_name='us-east-2')
-    obj = s3.get_object(Bucket=bucket_name, Key=file_key)
-    data = obj['Body'].read().decode('utf-8')
-    return pd.read_csv(StringIO(data))
-
-# Replace the next line with your bucket name and file key
-data = load_data_from_s3('ponderada4', 'Mall_Customers.csv')
+data = pd.read_csv('./dataset/Mall_Customers.csv')
 
 def plot_age_vs_income():
     st.subheader('Scatter Plot - Age vs Annual Income')
@@ -76,6 +70,32 @@ def main():
         else:
             st.warning('Please login to access the dashboard.')
             choice = 'Login'
+
+    if choice == 'API Request':  # Adicionado um novo bloco de código para lidar com solicitações API
+        st.subheader('API Request Section')
+        
+        # Criar campos de entrada para Idade, Sexo e Renda Anual
+        age = st.number_input('Enter Age', min_value=0)
+        gender = st.selectbox('Select Gender', ['Male', 'Female'])
+        annual_income = st.number_input('Enter Annual Income', min_value=0)
+        
+        # Quando o botão 'Submit' é pressionado, enviar uma solicitação POST para a API
+        if st.button('Submit'):
+            # Formatar os dados de entrada
+            data = {
+                'Age': int(age),
+                'Gender': 1 if gender == 'Male' else 0,
+                'Annual_Income': int(annual_income)
+            }
+            
+            # Enviar uma solicitação POST para a API e obter a resposta
+            response = requests.post('http://44.201.203.246:5000/predict', json=data)
+            
+            # Exibir a resposta da API no frontend
+            if response.status_code == 200:
+                st.success(f'Response from API: {response.json()}')
+            else:
+                st.error(f'Error: {response.status_code}')
 
 if __name__ == '__main__':
     main()

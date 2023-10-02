@@ -1,9 +1,0 @@
-
-version: '3'
-services:
-  web:
-    image: gabrielabarretto/ponderadasmodulo7:ponderada4
-    build: .
-    ports:
-      - "80:8501" # mudar pra 80
-  
