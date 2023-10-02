@@ -26,9 +26,6 @@ Logo, visamos:
 
 O aplicativo é encapsulado em um contêiner Docker para facilitar o deployment e a execução em diferentes ambientes, incluindo uma instância EC2 da AWS.
 
-### Precauções de Segurança
-Certifique-se de não expor credenciais AWS ou qualquer outra informação sensível no código. Considere usar variáveis de ambiente ou serviços de gerenciamento de segredos para lidar com credenciais de forma segura.
-
 ## Passos Realizados
 
 ### Pré-Requisitos
@@ -37,7 +34,57 @@ Certifique-se de não expor credenciais AWS ou qualquer outra informação sens�
 - Docker
 - AWS CLI 
 
-### Docker
+## Docker
+
+#### Imagens Criadas
+
+front:
+
+```bash
+# Use an official Python runtime as a base image
+FROM python:3.8-slim
+
+RUN mkdir /app
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Define environment variable
+ENV NAME World
+
+# Run streamlit_app.py when the container launches
+CMD ["streamlit", "run", "streamlit_app.py"]
+```
+
+Back:
+
+```bash
+# Use uma imagem base Python
+FROM python:3.8
+
+# Defina o diretório de trabalho
+WORKDIR /app
+
+# Copie o arquivo requirements.txt para o diretório de trabalho
+COPY requirements.txt .
+
+# Instale as dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie o restante do código para o diretório de trabalho
+COPY . .
+
+# Comando para executar o aplicativo
+CMD ["uvicorn", "minha_api:app", "--host", "0.0.0.0", "--port", "5000"]
+```
+
+
 
 1. **Construa a Imagem Docker**: Navegue até o diretório contendo o `Dockerfile` e construa a imagem Docker.
 
@@ -45,7 +92,7 @@ Certifique-se de não expor credenciais AWS ou qualquer outra informação sens�
     docker build -t ponderada4 .
     ```
 
-2. **Colando imagem no DockerHub**:
+2. **Colocando imagem no DockerHub**:
 
     ```bash
     docker tag ponderada4:latest gabrielabarretto/ponderadasmodulo7:ponderada4
